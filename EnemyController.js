@@ -37,13 +37,13 @@ export default class EnemyController {
   draw(ctx) {
     this.decrementMoveDownTimer();
     this.updateVelocityAndDirection();
-    this.colisionDetection();
+    this.collisionDetection();
     this.drawEnemies(ctx);
     this.resetMoveDownTimer();
     this.fireBullet();
   }
 
-  colisionDetection() {
+  collisionDetection() {
     this.enemyRows.forEach((enemyRow) => {
       enemyRow.forEach((enemy, enemyIndex) => {
         if (this.playerBulletController.collideWith(enemy)) {

@@ -24,7 +24,7 @@ let isGameOver = false;
 let didWin = false;
 
 function game() {
-  checkGamveOver();
+  checkGameOver();
   ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
   displayGameOver();
   if (!isGameOver) {
@@ -38,7 +38,7 @@ function game() {
 function displayGameOver() {
   if (isGameOver) {
     let text = didWin ? "YOU WIN" : "GAME OVER";
-    let textOffset = didWin ? 3.5 : 15;
+    let textOffset = didWin ? 5 : 15;
 
     ctx.fillStyle = "white";
     ctx.font = "100px Arial";
@@ -46,7 +46,7 @@ function displayGameOver() {
   }
 }
 
-function checkGamveOver() {
+function checkGameOver() {
   if (isGameOver) {
     return;
   }
