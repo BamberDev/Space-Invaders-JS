@@ -11,8 +11,8 @@ canvas.height = 700;
 const background = new Image();
 background.src = "assets/space.png";
 
-const playerBulletController = new BulletController(canvas, 20, "red", true);
-const enemyBulletController = new BulletController(canvas, 5, "white", false);
+const playerBulletController = new BulletController(canvas, 20, "yellow", true);
+const enemyBulletController = new BulletController(canvas, 5, "red", false);
 const enemyController = new EnemyController(
   canvas,
   enemyBulletController,
@@ -22,8 +22,9 @@ const player = new Player(canvas, 4, playerBulletController);
 
 let isGameOver = false;
 let didWin = false;
+let gameInterval;
 
-function game() {
+function gameLoop() {
   checkGameOver();
   ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
   displayGameOver();
@@ -62,4 +63,9 @@ function checkGameOver() {
   }
 }
 
-setInterval(game, 1000 / 60);
+document.querySelector("#start-button").addEventListener("click", startGame);
+
+function startGame() {
+  document.querySelector("#start-button").style.display = "none";
+  gameInterval = setInterval(gameLoop, 1000 / 60);
+}
