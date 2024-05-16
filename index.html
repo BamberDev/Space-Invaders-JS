@@ -10,15 +10,19 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
     <title>Space Invaders</title>
   </head>
   <body>
     <h1>SPACE INVADERS</h1>
     <div class="game-container">
       <canvas id="game"></canvas>
-      <button id="start-button">START</button>
+      <button id="start-button" class="button">START</button>
+      <button id="try-again-button" class="button" style="display: none">
+        TRY AGAIN
+      </button>
     </div>
-    <h2>CONTROLS</h2>
+    <h2>CONTROLS:</h2>
     <p>LEFT AND RIGHT ARROW KEYS = MOVE</p>
     <p>SPACE = SHOOT</p>
     <script type="module" src="index.js"></script>
