@@ -4,6 +4,8 @@ import BulletController from "./BulletController.js";
 
 const canvas = document.querySelector("#game");
 const ctx = canvas.getContext("2d");
+const tryAgainButton = document.querySelector("#try-again-button");
+const startButton = document.querySelector("#start-button");
 
 canvas.width = 700;
 canvas.height = 700;
@@ -38,12 +40,17 @@ function gameLoop() {
 
 function displayGameOver() {
   if (isGameOver) {
-    let text = didWin ? "YOU WIN" : "GAME OVER";
-    let textOffset = didWin ? 5 : 15;
+    let text = didWin ? "YOU WIN!" : "GAME OVER";
+    let buttonText = didWin ? "PLAY AGAIN" : "TRY AGAIN";
 
     ctx.fillStyle = "white";
-    ctx.font = "100px Arial";
-    ctx.fillText(text, canvas.width / textOffset, canvas.height / 2);
+    ctx.font = "100px Roboto";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+    tryAgainButton.innerText = buttonText;
+    tryAgainButton.style.display = "block";
   }
 }
 
@@ -63,9 +70,21 @@ function checkGameOver() {
   }
 }
 
-document.querySelector("#start-button").addEventListener("click", startGame);
+startButton.addEventListener("click", startGame);
 
 function startGame() {
-  document.querySelector("#start-button").style.display = "none";
+  startButton.style.display = "none";
+  tryAgainButton.style.display = "none";
+  isGameOver = false;
+  didWin = false;
+  enemyController.reset();
+  player.reset();
+  playerBulletController.reset();
+  enemyBulletController.reset();
+
+  clearInterval(gameInterval);
+
   gameInterval = setInterval(gameLoop, 1000 / 60);
 }
+
+tryAgainButton.addEventListener("click", startGame);
