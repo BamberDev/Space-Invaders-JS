@@ -7,8 +7,7 @@ export default class Player {
     this.canvas = canvas;
     this.velocity = velocity;
     this.bulletController = bulletController;
-
-    this.x = this.canvas.width / 2;
+    this.x = this.canvas.width / 2 - this.width / 2;
     this.y = this.canvas.height - 70;
     this.width = 50;
     this.height = 48;
@@ -73,7 +72,7 @@ export default class Player {
   };
 
   reset() {
-    this.x = this.canvas.width / 2;
+    this.x = this.canvas.width / 2 - this.width / 2;
     this.y = this.canvas.height - 70;
     this.rightPressed = false;
     this.leftPressed = false;
