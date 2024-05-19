@@ -86,13 +86,13 @@ That's it! The game should now be running in your browser.
 
 ## Screenshots
 
-![Game Start](screenshots/game_start.png)
+![SpaceInvadersStart](https://github.com/BamberDev/BamberDev/assets/130122317/4a2a77af-cbc9-492d-9123-60cc2754efce)
 _Game start screen_
 
-![In Game](screenshots/in_game.png)
+![SpaceInvadersInGame](https://github.com/BamberDev/BamberDev/assets/130122317/00715f4e-fbe2-462a-a55b-f4449e50c76b)
 _In-game screenshot_
 
-![Game Over](screenshots/game_over.png)
+![SpaceInvadersGameOver](https://github.com/BamberDev/BamberDev/assets/130122317/782f765e-6ce5-42fd-b9a8-1c91c04f920c)
 _Game over screen_
 
 ## Contributing
