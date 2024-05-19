@@ -12,7 +12,7 @@ export default class Bullet {
   draw(ctx) {
     this.y -= this.velocity;
     ctx.fillStyle = this.bulletColor;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.fillRect(this.x - this.width / 2, this.y, this.width, this.height);
   }
 
   collideWith(sprite) {
