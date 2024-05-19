@@ -70,8 +70,6 @@ function checkGameOver() {
   }
 }
 
-startButton.addEventListener("click", startGame);
-
 function startGame() {
   startButton.style.display = "none";
   tryAgainButton.style.display = "none";
@@ -87,4 +85,5 @@ function startGame() {
   gameInterval = setInterval(gameLoop, 1000 / 60);
 }
 
+startButton.addEventListener("click", startGame);
 tryAgainButton.addEventListener("click", startGame);
