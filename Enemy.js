@@ -1,47 +1,32 @@
-export function Enemy(x, y, imageNumber) {
-  const width = 44;
-  const height = 32;
+export default class Enemy {
+  constructor(x, y, imageNumber) {
+    this.x = x;
+    this.y = y;
+    this.width = 44;
+    this.height = 32;
 
-  const image = new Image();
-  image.src = `assets/enemy${imageNumber}.png`;
-
-  function draw(ctx) {
-    ctx.drawImage(image, x, y + 15, width, height);
+    this.image = new Image();
+    this.image.src = `assets/enemy${imageNumber}.png`;
   }
 
-  function move(xVelocity, yVelocity) {
-    x += xVelocity;
-    y += yVelocity;
+  draw(ctx) {
+    ctx.drawImage(this.image, this.x, this.y + 15, this.width, this.height);
   }
 
-  function collideWith(sprite) {
+  move(xVelocity, yVelocity) {
+    this.x += xVelocity;
+    this.y += yVelocity;
+  }
+  collideWith(sprite) {
     if (
-      x + width > sprite.x &&
-      x < sprite.x + sprite.width &&
-      y + height > sprite.y &&
-      y < sprite.y + sprite.height
+      this.x + this.width > sprite.x &&
+      this.x < sprite.x + sprite.width &&
+      this.y + this.height > sprite.y &&
+      this.y < sprite.y + sprite.height
     ) {
       return true;
     } else {
       return false;
     }
   }
-
-  return {
-    draw,
-    move,
-    collideWith,
-    get x() {
-      return x;
-    },
-    get y() {
-      return y;
-    },
-    get width() {
-      return width;
-    },
-    get height() {
-      return height;
-    },
-  };
 }
