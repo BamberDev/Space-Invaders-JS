@@ -1,30 +1,36 @@
-export default class Bullet {
-  constructor(canvas, x, y, velocity, bulletColor) {
-    this.canvas = canvas;
-    this.x = x;
-    this.y = y;
-    this.velocity = velocity;
-    this.bulletColor = bulletColor;
+export function Bullet(canvas, x, y, velocity, bulletColor) {
+  const width = 5;
+  const height = 20;
 
-    this.width = 5;
-    this.height = 20;
-  }
-  draw(ctx) {
-    this.y -= this.velocity;
-    ctx.fillStyle = this.bulletColor;
-    ctx.fillRect(this.x - this.width / 2, this.y, this.width, this.height);
+  function draw(ctx) {
+    y -= velocity;
+    ctx.fillStyle = bulletColor;
+    ctx.fillRect(x - width / 2, y, width, height);
   }
 
-  collideWith(sprite) {
-    if (
-      this.x + this.width > sprite.x &&
-      this.x < sprite.x + sprite.width &&
-      this.y + this.height > sprite.y &&
-      this.y < sprite.y + sprite.height
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+  function collideWith(sprite) {
+    return (
+      x + width > sprite.x &&
+      x < sprite.x + sprite.width &&
+      y + height > sprite.y &&
+      y < sprite.y + sprite.height
+    );
   }
+
+  return {
+    draw,
+    collideWith,
+    get x() {
+      return x;
+    },
+    get y() {
+      return y;
+    },
+    get width() {
+      return width;
+    },
+    get height() {
+      return height;
+    },
+  };
 }
