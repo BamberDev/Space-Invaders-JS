@@ -1,6 +1,6 @@
-import { EnemyController } from "./EnemyController.js";
-import { Player } from "./Player.js";
-import { BulletController } from "./BulletController.js";
+import EnemyController from "./EnemyController.js";
+import Player from "./Player.js";
+import BulletController from "./BulletController.js";
 
 const canvas = document.querySelector("#game");
 const ctx = canvas.getContext("2d");
@@ -13,14 +13,14 @@ canvas.height = 700;
 const background = new Image();
 background.src = "assets/space.png";
 
-const playerBulletController = BulletController(canvas, 20, "yellow", true);
-const enemyBulletController = BulletController(canvas, 5, "red", false);
-const enemyController = EnemyController(
+const playerBulletController = new BulletController(canvas, 20, "yellow", true);
+const enemyBulletController = new BulletController(canvas, 5, "red", false);
+const enemyController = new EnemyController(
   canvas,
   enemyBulletController,
   playerBulletController
 );
-const player = Player(canvas, 4, playerBulletController);
+const player = new Player(canvas, 4, playerBulletController);
 
 let isGameOver = false;
 let didWin = false;
@@ -40,8 +40,8 @@ function gameLoop() {
 
 function displayGameOver() {
   if (isGameOver) {
-    const text = didWin ? "YOU WIN!" : "GAME OVER";
-    const buttonText = didWin ? "PLAY AGAIN" : "TRY AGAIN";
+    let text = didWin ? "YOU WIN!" : "GAME OVER";
+    let buttonText = didWin ? "PLAY AGAIN" : "TRY AGAIN";
 
     ctx.fillStyle = "white";
     ctx.font = "100px Roboto";

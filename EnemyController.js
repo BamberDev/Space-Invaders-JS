@@ -1,12 +1,8 @@
-import { Enemy } from "./Enemy.js";
-import { MovingDirection } from "./MovingDirection.js";
+import Enemy from "./Enemy.js";
+import MovingDirection from "./MovingDirection.js";
 
-export function EnemyController(
-  canvas,
-  enemyBulletController,
-  playerBulletController
-) {
-  const enemyMap = [
+export default class EnemyController {
+  enemyMap = [
     [0, 2, 3, 2, 3, 2, 3, 2, 0],
     [2, 3, 2, 3, 2, 3, 2, 3, 2],
     [2, 2, 2, 2, 2, 2, 2, 2, 2],
@@ -15,150 +11,146 @@ export function EnemyController(
     [0, 1, 3, 1, 3, 1, 3, 1, 0],
   ];
 
-  let enemyRows = [];
-  let currentDirection = MovingDirection.right;
-  let xVelocity = 1;
-  let yVelocity = 0;
-  const defaultXVelocity = 1;
-  const defaultYVelocity = 1;
-  let moveDownTimer = 35;
-  const moveDownTimerDefault = 35;
-  let fireBulletTimer = 100;
-  const fireBulletTimerDefault = 100;
+  enemyRows = [];
 
-  const enemyDeathSound = new Audio("sounds/enemy-death.wav");
-  enemyDeathSound.volume = 0.01;
+  currentDirection = MovingDirection.right;
+  xVelocity = 0;
+  yVelocity = 0;
+  defaultXVelocity = 1;
+  defaultYVelocity = 1;
+  moveDownTimerDefault = 35;
+  moveDownTimer = this.moveDownTimerDefault;
+  fireBulletTimerDefault = 100;
+  fireBulletTimer = this.fireBulletTimerDefault;
 
-  createEnemies();
+  constructor(canvas, enemyBulletController, playerBulletController) {
+    this.canvas = canvas;
+    this.enemyBulletController = enemyBulletController;
+    this.playerBulletController = playerBulletController;
 
-  function draw(ctx) {
-    decrementMoveDownTimer();
-    updateVelocityAndDirection();
-    collisionDetection();
-    drawEnemies(ctx);
-    resetMoveDownTimer();
-    fireBullet();
+    this.enemyDeathSound = new Audio("sounds/enemy-death.wav");
+    this.enemyDeathSound.volume = 0.01;
+
+    this.createEnemies();
   }
 
-  function collisionDetection() {
-    enemyRows.forEach((enemyRow) => {
+  draw(ctx) {
+    this.decrementMoveDownTimer();
+    this.updateVelocityAndDirection();
+    this.collisionDetection();
+    this.drawEnemies(ctx);
+    this.resetMoveDownTimer();
+    this.fireBullet();
+  }
+
+  collisionDetection() {
+    this.enemyRows.forEach((enemyRow) => {
       enemyRow.forEach((enemy, enemyIndex) => {
-        if (playerBulletController.collideWith(enemy)) {
-          enemyDeathSound.currentTime = 0;
-          enemyDeathSound.play();
+        if (this.playerBulletController.collideWith(enemy)) {
+          this.enemyDeathSound.currentTime = 0;
+          this.enemyDeathSound.play();
           enemyRow.splice(enemyIndex, 1);
         }
       });
     });
-    enemyRows = enemyRows.filter((enemyRow) => enemyRow.length > 0);
+    this.enemyRows = this.enemyRows.filter((enemyRow) => enemyRow.length > 0);
   }
 
-  function fireBullet() {
-    fireBulletTimer--;
-    if (fireBulletTimer <= 0) {
-      fireBulletTimer = fireBulletTimerDefault;
-      const allEnemies = enemyRows.flat();
+  fireBullet() {
+    this.fireBulletTimer--;
+    if (this.fireBulletTimer <= 0) {
+      this.fireBulletTimer = this.fireBulletTimerDefault;
+      const allEnemies = this.enemyRows.flat();
       const enemyIndex = Math.floor(Math.random() * allEnemies.length);
       const enemy = allEnemies[enemyIndex];
-      enemyBulletController.shoot(enemy.x + enemy.width / 2, enemy.y, -3);
+      this.enemyBulletController.shoot(enemy.x, enemy.y, -3);
     }
   }
 
-  function resetMoveDownTimer() {
-    if (moveDownTimer <= 0) {
-      moveDownTimer = moveDownTimerDefault;
+  resetMoveDownTimer() {
+    if (this.moveDownTimer <= 0) {
+      this.moveDownTimer = this.moveDownTimerDefault;
     }
   }
 
-  function decrementMoveDownTimer() {
+  decrementMoveDownTimer() {
     if (
-      currentDirection === MovingDirection.downLeft ||
-      currentDirection === MovingDirection.downRight
+      this.currentDirection === MovingDirection.downLeft ||
+      this.currentDirection === MovingDirection.downRight
     ) {
-      moveDownTimer--;
+      this.moveDownTimer--;
     }
   }
 
-  function updateVelocityAndDirection() {
-    for (const enemyRow of enemyRows) {
-      if (currentDirection === MovingDirection.right) {
-        xVelocity = defaultXVelocity;
-        yVelocity = 0;
+  updateVelocityAndDirection() {
+    for (const enemyRow of this.enemyRows) {
+      if (this.currentDirection === MovingDirection.right) {
+        this.xVelocity = this.defaultXVelocity;
+        this.yVelocity = 0;
         const rightMostEnemy = enemyRow[enemyRow.length - 1];
-        if (rightMostEnemy.x + rightMostEnemy.width > canvas.width - 20) {
-          currentDirection = MovingDirection.downLeft;
+        if (rightMostEnemy.x + rightMostEnemy.width > this.canvas.width - 20) {
+          this.currentDirection = MovingDirection.downLeft;
           break;
         }
-      } else if (currentDirection === MovingDirection.downLeft) {
-        if (moveDown(MovingDirection.left)) {
+      } else if (this.currentDirection === MovingDirection.downLeft) {
+        if (this.moveDown(MovingDirection.left)) {
           break;
         }
-      } else if (currentDirection === MovingDirection.left) {
-        xVelocity = -defaultXVelocity;
-        yVelocity = 0;
+      } else if (this.currentDirection === MovingDirection.left) {
+        this.xVelocity = -this.defaultXVelocity;
+        this.yVelocity = 0;
         const leftMostEnemy = enemyRow[0];
-        if (leftMostEnemy.x <= 20) {
-          currentDirection = MovingDirection.downRight;
+        if (leftMostEnemy.x <= 0 + 20) {
+          this.currentDirection = MovingDirection.downRight;
           break;
         }
-      } else if (currentDirection === MovingDirection.downRight) {
-        if (moveDown(MovingDirection.right)) {
+      } else if (this.currentDirection === MovingDirection.downRight) {
+        if (this.moveDown(MovingDirection.right)) {
           break;
         }
       }
     }
   }
 
-  function collideWith(sprite) {
-    return enemyRows.flat().some((enemy) => enemy.collideWith(sprite));
+  collideWith(sprite) {
+    return this.enemyRows.flat().some((enemy) => enemy.collideWith(sprite));
   }
 
-  function moveDown(newDirection) {
-    xVelocity = 0;
-    yVelocity = defaultYVelocity;
-    if (moveDownTimer <= 0) {
-      currentDirection = newDirection;
+  moveDown(newDirection) {
+    this.xVelocity = 0;
+    this.yVelocity = this.defaultYVelocity;
+    if (this.moveDownTimer <= 0) {
+      this.currentDirection = newDirection;
       return true;
     }
     return false;
   }
 
-  function drawEnemies(ctx) {
-    enemyRows.flat().forEach((enemy) => {
-      enemy.move(xVelocity, yVelocity);
+  drawEnemies(ctx) {
+    this.enemyRows.flat().forEach((enemy) => {
+      enemy.move(this.xVelocity, this.yVelocity);
       enemy.draw(ctx);
     });
   }
-
-  function createEnemies() {
-    enemyMap.forEach((row, rowIndex) => {
-      enemyRows[rowIndex] = [];
+  createEnemies() {
+    this.enemyMap.forEach((row, rowIndex) => {
+      this.enemyRows[rowIndex] = [];
       row.forEach((enemyNumber, enemyIndex) => {
         if (enemyNumber > 0) {
-          enemyRows[rowIndex].push(
-            Enemy(enemyIndex * 60, rowIndex * 40, enemyNumber)
+          this.enemyRows[rowIndex].push(
+            new Enemy(enemyIndex * 60, rowIndex * 40, enemyNumber)
           );
         }
       });
     });
   }
-
-  function reset() {
-    enemyRows = [];
-    createEnemies();
-    currentDirection = MovingDirection.right;
-    xVelocity = 0;
-    yVelocity = 0;
-    moveDownTimer = moveDownTimerDefault;
-    fireBulletTimer = fireBulletTimerDefault;
+  reset() {
+    this.enemyRows = [];
+    this.createEnemies();
+    this.currentDirection = MovingDirection.right;
+    this.xVelocity = 0;
+    this.yVelocity = 0;
+    this.moveDownTimer = this.moveDownTimerDefault;
+    this.fireBulletTimer = this.fireBulletTimerDefault;
   }
-
-  return {
-    draw,
-    reset,
-    collideWith,
-    get enemyRows() {
-      return enemyRows;
-    },
-  };
 }
