@@ -2,6 +2,8 @@
 
 ## WORKS ONLY ON LAPTOP AND DESKTOP!
 
+## Demo
+
 [Live Demo](https://spaceinvadersjs.netlify.app/)
 
 Welcome to the **Space Invaders Game**! This is a classic arcade game implemented in JavaScript, where you control a spaceship to defend the Earth from waves of invading aliens. The game is built using HTML, CSS, and JavaScript.
