@@ -29,7 +29,7 @@ To run the game locally, follow these steps:
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/yourusername/space-invaders-game.git
+   git clone https://github.com/BamberDev/Space-Invaders-JS.git
    ```
 
 2. **Navigate to the project directory:**
