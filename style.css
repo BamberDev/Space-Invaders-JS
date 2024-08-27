@@ -17,11 +17,10 @@
 }
 
 .container {
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  display: none;
 
   @media (min-width: 1024px) {
     display: flex;
